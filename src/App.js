@@ -1,9 +1,9 @@
-import Clicker from "./Clicker";
+import TodoApp from "./TodoApp";
 
 const App = () => {
   return (
     <div>
-      <Clicker />
+        <TodoApp />
     </div>
   );
 }
