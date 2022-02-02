@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import { Menu } from "@material-ui/icons";
+import { Menu } from '@mui/icons-material'
 import TodoList from './TodoList';
-import { Grid, Paper } from '@mui/material';
+import { Paper } from '@mui/material';
 import TodoForm from './TodoForm';
+import useTodoState from './hooks/useTodoState';
 
 const TodoApp = () => {
-    const initialTodos = [
-        { id: 1, task: "Clean Fishtank", completed: false },
-        { id: 2, task: "Wash Car", completed: true },
-        { id: 3, task: "Grow Beard", completed: false }
-    ]
-    const [todos, setTodos] = useState(initialTodos);
-    const addTodo = newTodoText => {
-        setTodos([...todos, {id: 4, task: newTodoText, completed: false}]);
-    }
+    const initialTodos = [];
+    const {todos, addTodo, removeTodo, toggleTodo, editTodo} = useTodoState(initialTodos);
+
+    useEffect(() => {
+        window.localStorage.setItem("todos", JSON.stringify(todos));
+    }, [todos])
+
+   
     return (
         <Paper style={{
             padding: 0,
@@ -48,7 +48,12 @@ const TodoApp = () => {
                     </Toolbar>
                 </AppBar>
                 <TodoForm addTodo={addTodo} />
-                <TodoList todos={todos} />
+                <TodoList 
+                todos={todos} 
+                removeTodo={removeTodo} 
+                toggleTodo={toggleTodo} 
+                editTodo={editTodo}
+                />
             </Box>
         </Paper>
     );
